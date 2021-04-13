@@ -66,6 +66,13 @@ function findLocation(locationButton) {
   });
 }
 
+function createCrimeButton(crimeObject) {
+  var btn = document.createElement("BUTTON");   // Create a <button> element
+  btn.innerHTML = crimeObject.name; 
+  btn.setAttribute('value', crimeObject.url);
+  document.body.appendChild(btn);
+}
+
 function findCrimes(findCrimesButtons) {
   findCrimesButtons.textContent = "Find Crimes";
   findCrimesButtons.classList.add("custom-map-control-button");
@@ -73,9 +80,8 @@ function findCrimes(findCrimesButtons) {
   findCrimesButtons.addEventListener("click", () => {
     const url = "https://data.police.uk/api/crime-categories";
 
-    var i;
-    let responce = fetch(url)
+    let response = fetch(url)
       .then(res => res.json())
-      .then(data => data.forEach(obj => console.log(obj.name)));
+      .then(data => data.forEach(crimeObject => createCrimeButton(crimeObject)));
   })
 }
