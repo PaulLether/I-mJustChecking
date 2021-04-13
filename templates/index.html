@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Just Checking</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+
+  <style>
+    body {
+      background-color: linen;
+      margin: 0;
+    }
+
+    /* Style the header */
+    .header {
+      /* background-color: #f1f1f1; */
+      padding: 20px;
+      text-align: center;
+    }
+
+    #map {
+      height: 400px;
+      /* The height is 400 pixels */
+      width: 50%;
+      /* The width is the width of the web page */
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <h1> I'm just checking </h1>
+    <p id="demo"></p>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lastUpdate.js') }}"></script>
+
+    <p>this website checks the crime in your area</p>
+
+    <center>
+      <div id="map"></div>
+      <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"></script>
+      <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyROTbDaTHe7m0Ef5gUI-cfjRaTX_0TtI&callback=initMap"></script>
+    </center>
+  </div>
+</body>
+
+</html>

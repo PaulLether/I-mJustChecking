@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Just Checking</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+
+<style>
+body {
+  background-color: linen;
+  margin: 0;
+}
+
+/* Style the header */
+.header {
+  /* background-color: #f1f1f1; */
+  padding: 20px;
+  text-align: center;
+}
+
+#map {
+    height: 400px;
+    /* The height is 400 pixels */
+    width: 50%;
+    /* The width is the width of the web page */
+    text-align: center;
+  }
+</style>
+</head>
+
+<body>
+<div class="header"> 
+
+  <h1>Im just Checking</h1>
+  <p id="demo"></p> 
+  <script>
+    const url = "https://data.police.uk/api/crime-last-updated";
+
+    document.getElementById("demo").innerHTML  = fetch(url)
+    .then( res => res.json() )
+    .then( data => console.log(data) );
+    
+   
+  </script>
+
+  <p>this website checks the crime in your area</p>
+  
+  <center>
+    <div id="map"></div>
+    
+    <script>
+      function initMap() {
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: 54.378, lng: -5.436 },
+    zoom: 5,
+    
+    
+    restriction: {
+    latLngBounds: {
+      north: 60,
+      south: 48,
+      east: 5,
+      west: -20,
+    },
+  },
+  });
+  infoWindow = new google.maps.InfoWindow();
+  
+  const locationButton = document.createElement("button");
+  locationButton.textContent = "Current Location";
+  locationButton.classList.add("custom-map-control-button");
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+  locationButton.addEventListener("click", () => {
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          infoWindow.setPosition(pos);
+          infoWindow.setContent("Current Location");
+          infoWindow.open(map);
+          map.setCenter(pos);
+          map.setZoom(17);
+        },
+        () => {
+          handleLocationError(true, infoWindow, map.getCenter());
+        }
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, map.getCenter());
+    }
+  });
+
+  const findCrimesButtons = document.createElement("button");
+  findCrimesButtons.textContent = "Find Crimes";
+  findCrimesButtons.classList.add("custom-map-control-button");
+  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(findCrimesButtons);
+  findCrimesButtons.addEventListener("click", () => {
+    
+    
+  const url = "https://data.police.uk/api/crime-last-updated";
+
+  const options = {
+    headers: {
+    }
+  };
+
+  fetch(url, options)
+    .then( res => res.json() )
+    .then( data => console.log(data) );
+    
+  
+  });
+
+}
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(
+    browserHasGeolocation
+      ? "Error: The Geolocation service failed."
+      : "Error: Your browser doesn't support geolocation."
+  );
+  infoWindow.open(map);
+}
+    </script>
+
+
+
+
+    <script 
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyROTbDaTHe7m0Ef5gUI-cfjRaTX_0TtI&callback=initMap"
+
+      ></script>
+      
+  </center>
+
+ </div>
+</body>
+</html>
